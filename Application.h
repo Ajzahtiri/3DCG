@@ -49,6 +49,14 @@ private:
 	XMFLOAT4X4              _view;
 	XMFLOAT4X4              _projection;
 
+	//depth buffer
+	ID3D11DepthStencilView* _depthStencilView;
+	ID3D11Texture2D* _depthStencilBuffer;
+
+	//render states
+	ID3D11RasterizerState* _wireFrame;
+	bool _isWF;
+
 	//camera
 	Camera camera;
 

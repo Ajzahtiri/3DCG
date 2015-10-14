@@ -17,6 +17,7 @@ struct SimpleVertex
 {
     XMFLOAT3 Pos;
     XMFLOAT4 Color;
+//	XMFLOAT3 Normal;
 };
 
 struct ConstantBuffer
@@ -45,7 +46,8 @@ private:
 	ID3D11Buffer*           _pVertexBuffer;
 	ID3D11Buffer*           _pIndexBuffer;
 	ID3D11Buffer*           _pConstantBuffer;
-	XMFLOAT4X4              _world;
+	XMFLOAT4X4              _cube1;
+	XMFLOAT4X4				_cube2;
 	XMFLOAT4X4              _view;
 	XMFLOAT4X4              _projection;
 

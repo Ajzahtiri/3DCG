@@ -1,4 +1,4 @@
-﻿Build started 14/10/2015 16:20:51.
+﻿Build started 14/10/2015 17:56:04.
      1>Project "C:\Users\Aaron\Google Drive\Uni\Year 3\Semester 1\3DCG\3dcg\3DCG\DX11 Framework.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W4 /WX- /Od /Oi /Oy- /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D D3DXFX_LARGEADDRESS_HANDLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /openmp- /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt  Application.cpp
@@ -15,4 +15,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.75
+Time Elapsed 00:00:00.72

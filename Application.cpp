@@ -556,14 +556,17 @@ void Application::Update()
 	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(camera.getEyeVector(), camera.getAtVector(), camera.getUpVector()));
 
 	// Animate the cube
-	XMMATRIX _rotation, _scale, _translation1, _translation2, _final1, _final2;
+	XMMATRIX _rotation1, _rotation2, _scale1, _scale2, _translation1, _translation2, _final1, _final2;
 
-	_rotation = XMMatrixRotationRollPitchYaw(t, t, t);
+	_rotation1 = XMMatrixRotationY(-t);
+	_rotation2 = XMMatrixRotationY(t);
 	_translation1 = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
-	_translation2 = XMMatrixTranslation(0.0f, 1.0f, 0.0f);
+	_translation2 = XMMatrixTranslation(5.0f, 0.0f, 0.0f);
+	_scale1 = XMMatrixScaling(1, 1, 1);
+	_scale2 = XMMatrixScaling(.5, .5, .5);
 
-	_final1 = _rotation * _translation1;
-	_final2 = _rotation * _translation2;
+	_final1 = _rotation1 * _translation1 * _scale1;
+	_final2 =  _translation2 * _rotation2 * _scale2;
 
 	XMStoreFloat4x4(&_cube1, _final1);
 	XMStoreFloat4x4(&_cube2, _final2);

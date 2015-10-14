@@ -74,7 +74,7 @@ XMVECTOR Camera::getEyeVector()
 
 XMVECTOR Camera::getAtVector()
 {
-	XMVECTOR a = XMVectorSet(eye.x, eye.y, eye.z, 0.0f);
+	XMVECTOR a = XMVectorSet(at.x, at.y, at.z, 0.0f);
 	return a;
 }
 

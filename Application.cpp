@@ -550,15 +550,9 @@ void Application::Update()
 		t = (dwTimeCur - dwTimeStart) / 1000.0f;
 	}
 
-
-	XMVECTOR Eye = XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
-	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	XMVECTOR At2 = camera.getAtVector();
-
 	//XMStoreFloat4x4(&_view, XMMatrixLookAtLH(Eye, At, Up));
 	// update the camera
-	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(camera.getEyeVector(), At, camera.getUpVector()));
+	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(camera.getEyeVector(), camera.getAtVector(), camera.getUpVector()));
 
 	// Animate the cube
 	XMMATRIX _rotation, _scale, _translation, _final;

@@ -41,3 +41,11 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.tlog
+Debug/DX11 Framework.pdb
+*.log
+Debug/DX11 Framework.ilk
+Debug/Application.obj
+*.obj
+Debug/vc140.idb
+*.pdb

@@ -17,7 +17,7 @@ struct SimpleVertex
 {
     XMFLOAT3 Pos;
     XMFLOAT4 Color;
-//	XMFLOAT3 Normal;
+	XMFLOAT3 Normal;
 };
 
 struct ConstantBuffer
@@ -25,6 +25,9 @@ struct ConstantBuffer
 	XMMATRIX mWorld;
 	XMMATRIX mView;
 	XMMATRIX mProjection;
+	XMFLOAT4 mDiffuseMtrl;
+	XMFLOAT4 mDiffuseLight;
+	XMFLOAT3 mLightVecW;
 };
 
 class Application
@@ -48,8 +51,6 @@ private:
 	ID3D11Buffer*           _pConstantBuffer;
 	XMFLOAT4X4              _cube1;
 	XMFLOAT4X4				_cube2;
-	XMFLOAT4X4              _view;
-	XMFLOAT4X4              _projection;	
 
 	//depth buffer
 	ID3D11DepthStencilView* _depthStencilView;
@@ -59,14 +60,22 @@ private:
 	ID3D11RasterizerState*	_wireFrame;
 	bool					_isWF;
 
-	//camera
+	//camera + view
+	XMMATRIX				_wvp;
 	Camera					_cam;
+	XMFLOAT4X4              _view;
+	XMFLOAT4X4              _projection;
 
 	//input
 	IDirectInputDevice8*	_DIKeyboard;
 	IDirectInputDevice8*	_DIMouse;
 	DIMOUSESTATE			_mouseLastState;
 	LPDIRECTINPUT8			_DirectInput;
+
+	//lighting
+	XMFLOAT3				_lightDirection;
+	XMFLOAT4				_diffuseMaterial;
+	XMFLOAT4				_diffuseLight;
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);

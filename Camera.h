@@ -35,13 +35,14 @@ private:
 	At at;
 	Up up;
 
+	float movement = 0.001;
 	
 
 public:
 	Camera();
 	~Camera();
-
-	HRESULT InitCamera();
+	
+	HRESULT Initialise();
 	void moveLeft();
 	void moveRight();
 	void moveUp();

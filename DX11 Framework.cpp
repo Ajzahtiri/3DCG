@@ -22,10 +22,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        else
+		else
         {
-			theApp->DetectInput();
-			theApp->Update();
+			theApp->_frameCount++;
+
+			if (theApp->GetTime() > 1.0f)
+			{
+				theApp->_fps = theApp->_frameCount;
+				theApp->_frameCount = 0;
+				theApp->StartTimer();
+			}
+
+			theApp->_frameTime = theApp->GetFrameTime();
+			
+			theApp->DetectInput(theApp->_frameTime);
+			theApp->Update(theApp->_frameTime);
             theApp->Draw();
         }
     }

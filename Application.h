@@ -49,30 +49,30 @@ private:
 	XMFLOAT4X4              _cube1;
 	XMFLOAT4X4				_cube2;
 	XMFLOAT4X4              _view;
-	XMFLOAT4X4              _projection;
+	XMFLOAT4X4              _projection;	
 
 	//depth buffer
 	ID3D11DepthStencilView* _depthStencilView;
-	ID3D11Texture2D* _depthStencilBuffer;
+	ID3D11Texture2D*		_depthStencilBuffer;
 
 	//render states
-	ID3D11RasterizerState* _wireFrame;
-	bool _isWF;
+	ID3D11RasterizerState*	_wireFrame;
+	bool					_isWF;
 
 	//camera
-	Camera camera;
+	Camera					_cam;
 
 	//input
-	IDirectInputDevice8* DIKeyboard;
-	IDirectInputDevice8* DIMouse;
-	DIMOUSESTATE mouseLastState;
-	LPDIRECTINPUT8 DirectInput;
+	IDirectInputDevice8*	_DIKeyboard;
+	IDirectInputDevice8*	_DIMouse;
+	DIMOUSESTATE			_mouseLastState;
+	LPDIRECTINPUT8			_DirectInput;
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
-	HRESULT InitDevice();
-	bool	InitInput(HINSTANCE hInstance);
-	void Cleanup();
+	HRESULT InitDirectX();
+	HRESULT	InitInput(HINSTANCE hInstance);
+	HRESULT InitCamera(HINSTANCE hInstance);
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
 	HRESULT InitVertexBuffer();
@@ -82,12 +82,23 @@ private:
 public:
 	Application();
 	~Application();
-
+	void	Cleanup();
 	HRESULT Initialise(HINSTANCE hInstance, int nCmdShow);
 
-	void DetectInput();
-
-	void Update();
+	void DetectInput(double time);
+	void Update(double time);
 	void Draw();
+
+	//timing
+	void	StartTimer();
+	double	GetTime();
+	double	GetFrameTime();
+
+	__int64					_frameTimeOld;
+	double					_frameTime;
+	int						_frameCount;
+	int						_fps;
+	double					_countsPerSecond;
+	__int64					_counterStart;
 };
 

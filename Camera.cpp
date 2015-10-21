@@ -10,7 +10,7 @@ Camera::~Camera()
 
 }
 
-HRESULT Camera::InitCamera()
+HRESULT Camera::Initialise()
 {
 	//set up position
 	eye.x = 0.0f;
@@ -32,38 +32,38 @@ HRESULT Camera::InitCamera()
 
 void Camera::moveLeft()
 {
-	eye.x += 0.001;
-	at.x += 0.001;
+	eye.x += movement;
+	at.x += movement;
 }
 
 void Camera::moveRight()
 {
-	eye.x -= 0.001;
-	at.x -= 0.001;
+	eye.x -= movement;
+	at.x -= movement;
 }
 
 void Camera::moveUp()
 {
-	eye.y -= 0.001;
-	at.y -= 0.001;
+	eye.y -= movement;
+	at.y -= movement;
 }
 
 void Camera::moveDown()
 {
-	eye.y += 0.001;
-	at.y += 0.001;
+	eye.y += movement;
+	at.y += movement;
 }
 
 void Camera::moveForward()
 {
-	eye.z += 0.001;
-	at.z += 0.001;
+	eye.z += movement;
+	at.z += movement;
 }
 
 void Camera::moveBack()
 {
-	eye.z -= 0.001;
-	at.z -= 0.001;
+	eye.z -= movement;
+	at.z -= movement;
 }
 
 XMVECTOR Camera::getEyeVector()

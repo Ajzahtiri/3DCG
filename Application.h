@@ -10,25 +10,9 @@
 #include <directxmath.h>
 #include "resource.h"
 #include <dinput.h>
+#include "Structures.h"
 
 using namespace DirectX;
-
-struct SimpleVertex
-{
-    XMFLOAT3 Pos;
-    XMFLOAT4 Color;
-	XMFLOAT3 Normal;
-};
-
-struct ConstantBuffer
-{
-	XMMATRIX mWorld;
-	XMMATRIX mView;
-	XMMATRIX mProjection;
-	XMFLOAT4 mDiffuseMtrl;
-	XMFLOAT4 mDiffuseLight;
-	XMFLOAT3 mLightVecW;
-};
 
 class Application
 {
@@ -73,9 +57,10 @@ private:
 	LPDIRECTINPUT8			_DirectInput;
 
 	//lighting
-	XMFLOAT3				_lightDirection;
-	XMFLOAT4				_diffuseMaterial;
-	XMFLOAT4				_diffuseLight;
+	Light					_light;
+
+	// Compute Colour
+
 
 private:
 	HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);

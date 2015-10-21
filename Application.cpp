@@ -366,12 +366,15 @@ HRESULT Application::InitShadersAndInputLayout()
 
 	// Light
 	// Light direction from surface (XYZ)
-	_lightDirection = XMFLOAT3(0.25f, 0.5f, -1.0f);
+	_light.mLightVecW = XMFLOAT3(0.25f, 0.5f, -1.0f);
 	// Diffuse material properties (RGBA)
-	_diffuseMaterial = XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f);
+	_light.mDiffuseMtrl = XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f);
 	// Diffuse light colour (RGBA)
-	_diffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-
+	_light.mDiffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	// Ambient material properties (RGBA)
+	_light.mAmbientMtrl = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	// Ambient light colour (RGBA)
+	_light.mAmbientLight = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
 	UINT numElements = ARRAYSIZE(layout);
 
@@ -506,6 +509,7 @@ void Application::DetectInput(double time)
 	_DIMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseCurrState);
 	_DIKeyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
 
+	//move camera
 	if (keyboardState[DIK_A] & 0x80)
 	{
 		_cam.moveLeft();
@@ -518,14 +522,24 @@ void Application::DetectInput(double time)
 
 	if (keyboardState[DIK_W] & 0x80)
 	{
-		_cam.moveUp();
+		_cam.moveForward();
 	}
 
 	if (keyboardState[DIK_S] & 0x80)
 	{
-		_cam.moveDown();
+		_cam.moveBack();
 	}
 
+	if (keyboardState[DIK_Q] & 0x80)
+	{
+		_cam.moveUp();
+	}
+
+	if (keyboardState[DIK_E] & 0x80)
+	{
+		_cam.moveDown();
+	}
+	
 	if (keyboardState[DIK_F1] & 0x80)
 	{
 		if (_isWF == true)
@@ -600,9 +614,7 @@ void Application::Draw()
 	cb.mWorld = XMMatrixTranspose(world1);
 	cb.mView = XMMatrixTranspose(view);
 	cb.mProjection = XMMatrixTranspose(projection);
-	cb.mDiffuseMtrl = _diffuseMaterial;
-	cb.mDiffuseLight = _diffuseLight;
-	cb.mLightVecW = _lightDirection;
+	cb.mLight = _light;
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
@@ -615,9 +627,7 @@ void Application::Draw()
 	cb.mWorld = XMMatrixTranspose(world2);
 	cb.mView = XMMatrixTranspose(view);
 	cb.mProjection = XMMatrixTranspose(projection);
-	cb.mDiffuseMtrl = _diffuseMaterial;
-	cb.mDiffuseLight = _diffuseLight;
-	cb.mLightVecW = _lightDirection;
+	cb.mLight = _light;
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 

@@ -5,27 +5,24 @@
 //--------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------
-// Lighting
+// Constant Buffer Variables
 //--------------------------------------------------------------------------------------
 struct Light
 {
-	float3 dir;
-	float4 ambient;
-	float4 diffuse;
+	float3 LightVecW;
+	float4 DiffuseMtrl;
+	float4 DiffuseLight;
+	float3 AmbientMtrl;
+	float3 AmbientLight;
 };
 
-//--------------------------------------------------------------------------------------
-// Constant Buffer Variables
-//--------------------------------------------------------------------------------------
 cbuffer ConstantBuffer : register( b0 )
 {
 	matrix World;
 	matrix View;
 	matrix Projection;
 
-	float4 DiffuseMtrl;
-	float4 DiffuseLight;
-	float3 LightVecW;
+	Light  light;
 }
 
 //--------------------------------------------------------------------------------------
@@ -52,9 +49,16 @@ VS_OUTPUT VS(float4 Pos : POSITION, float3 NormalL : NORMAL)
 	normalW = normalize(normalW);
 
 	// Compute Colour using Diffuse lighting only
-	float diffuseAmount = max(dot(LightVecW, normalW), 0.0f);
-	output.Color.rgb = diffuseAmount * (DiffuseMtrl * DiffuseLight).rgb;
-	output.Color.a = DiffuseMtrl.a;
+	float diffuseAmount = max(dot(light.LightVecW, normalW), 0.0f);
+	float3 diffuse = diffuseAmount * (light.DiffuseMtrl * light.DiffuseLight).rgb;
+	output.Color.rgb = diffuse;
+	
+	// Compute ambient
+	float3 ambient = light.AmbientMtrl * light.AmbientLight;
+
+	// COMBINE
+	output.Color.rgb = diffuse + ambient;
+	output.Color.a = light.DiffuseMtrl.a; 
 
 	return output;
 }

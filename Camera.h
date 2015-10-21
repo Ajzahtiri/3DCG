@@ -35,6 +35,8 @@ private:
 	At at;
 	Up up;
 
+
+
 	float movement = 0.001;
 	
 
@@ -53,5 +55,4 @@ public:
 	XMVECTOR getEyeVector();
 	XMVECTOR getAtVector();
 	XMVECTOR getUpVector();
-
 };

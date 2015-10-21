@@ -3,9 +3,16 @@
 
 struct Light
 {
-	XMFLOAT3	_lightDirection;
-	XMFLOAT4	_diffuseMaterial;
-	XMFLOAT4	_diffuseLight;
+	Light()
+	{
+		ZeroMemory(this, sizeof(Light));
+	}
+
+	XMFLOAT3 mLightVecW;
+	XMFLOAT4 mDiffuseMtrl;
+	XMFLOAT4 mDiffuseLight;
+	XMFLOAT3 mAmbientMtrl;
+	XMFLOAT3 mAmbientLight;
 };
 
 struct SimpleVertex
@@ -17,8 +24,8 @@ struct SimpleVertex
 
 struct ConstantBuffer
 {
-	XMMATRIX	mWorld;
-	XMMATRIX	mView;
-	XMMATRIX	mProjection;
-	Light		mLight;
+	XMMATRIX mWorld;
+	XMMATRIX mView;
+	XMMATRIX mProjection;
+	Light	mLight;
 };

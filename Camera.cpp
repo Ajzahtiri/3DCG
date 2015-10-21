@@ -32,26 +32,26 @@ HRESULT Camera::Initialise()
 
 void Camera::moveLeft()
 {
-	eye.x += movement;
-	at.x += movement;
-}
-
-void Camera::moveRight()
-{
 	eye.x -= movement;
 	at.x -= movement;
 }
 
+void Camera::moveRight()
+{
+	eye.x += movement;
+	at.x += movement;
+}
+
 void Camera::moveUp()
 {
-	eye.y -= movement;
-	at.y -= movement;
+	eye.y += movement;
+	at.y += movement;
 }
 
 void Camera::moveDown()
 {
-	eye.y += movement;
-	at.y += movement;
+	eye.y -= movement;
+	at.y -= movement;
 }
 
 void Camera::moveForward()

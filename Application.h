@@ -78,7 +78,6 @@ private:
 	HRESULT InitVertexBuffer();
 	HRESULT InitIndexBuffer();
 
-
 public:
 	Application();
 	~Application();

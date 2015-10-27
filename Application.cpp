@@ -43,8 +43,6 @@ Application::Application()
 	_pVertexShader = nullptr;
 	_pPixelShader = nullptr;
 	_pVertexLayout = nullptr;
-	_pVertexBuffer = nullptr;
-	_pIndexBuffer = nullptr;
 	_pConstantBuffer = nullptr;
 }
 Application::~Application()
@@ -56,8 +54,6 @@ void Application::Cleanup()
 	if (_pImmediateContext) _pImmediateContext->ClearState();
 
 	if (_pConstantBuffer) _pConstantBuffer->Release();
-	if (_pVertexBuffer) _pVertexBuffer->Release();
-	if (_pIndexBuffer) _pIndexBuffer->Release();
 	if (_pVertexLayout) _pVertexLayout->Release();
 	if (_pVertexShader) _pVertexShader->Release();
 	if (_pPixelShader) _pPixelShader->Release();
@@ -105,6 +101,9 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	// Initialize the world matrix
 	XMStoreFloat4x4(&_cube1, XMMatrixIdentity());
 	XMStoreFloat4x4(&_cube2, XMMatrixIdentity());
+
+	_cubbe1.Initialise(_pd3dDevice);
+	_cubbe2.Initialise(_pd3dDevice);
 
 	//inits camera (view matrix)
 	if (FAILED(_cam.Initialise()))
@@ -259,20 +258,6 @@ HRESULT Application::InitDirectX()
 
 	InitShadersAndInputLayout();
 
-	InitVertexBuffer();
-
-	// Set vertex buffer
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	_pImmediateContext->IASetVertexBuffers(0, 1, &_pVertexBuffer, &stride, &offset);
-
-	InitIndexBuffer();
-
-	// Set index buffer
-	_pImmediateContext->IASetIndexBuffer(_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-
-	// Set primitive topology
-	_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// Create the constant buffer
 	D3D11_BUFFER_DESC bd;
@@ -307,7 +292,6 @@ HRESULT Application::InitInput(HINSTANCE hInstance)
 }
 HRESULT Application::InitCamera(HINSTANCE hInstance)
 {
-	HRESULT hr;
 
 	_cam.Initialise();
 
@@ -359,22 +343,25 @@ HRESULT Application::InitShadersAndInputLayout()
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        //{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-
 	};
 
-	// Light
+	// Lighting
 	// Light direction from surface (XYZ)
-	_light.mLightVecW = XMFLOAT3(0.25f, 0.5f, -1.0f);
-	// Diffuse material properties (RGBA)
+	_light.mLightVecW = XMFLOAT3(5.25f, 1.0f, -1.0f);
+
+	// Diffuse lighting properties (RGBA)
 	_light.mDiffuseMtrl = XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f);
-	// Diffuse light colour (RGBA)
 	_light.mDiffuseLight = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	// Ambient material properties (RGBA)
+
+	// Ambient lighting properties (RGBA)
 	_light.mAmbientMtrl = XMFLOAT3(0.2f, 0.2f, 0.2f);
-	// Ambient light colour (RGBA)
 	_light.mAmbientLight = XMFLOAT3(0.2f, 0.2f, 0.2f);
+
+	// Specular lighting properties (RGBA)
+	//_light.mSpecularMtrl = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	//_light.mSpecularLight = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	//_light.mSpecularPower = 5.0f;
 
 	UINT numElements = ARRAYSIZE(layout);
 
@@ -390,81 +377,6 @@ HRESULT Application::InitShadersAndInputLayout()
     _pImmediateContext->IASetInputLayout(_pVertexLayout);
 
 	return hr;
-}
-HRESULT Application::InitVertexBuffer()
-{
-	HRESULT hr;
-
-    // Create vertex buffer
-    SimpleVertex vertices[] =
-    {
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) } ,
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-    };
-
-    D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(SimpleVertex) * 8;
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-    D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-    InitData.pSysMem = vertices;
-
-    hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pVertexBuffer);
-
-    if (FAILED(hr))
-        return hr;
-
-	return S_OK;
-}
-HRESULT Application::InitIndexBuffer()
-{
-	HRESULT hr;
-
-    // Create index buffer
-    WORD indices[] =
-    {
-		0, 1, 2,    // side 1
-		2, 1, 3,
-		4, 0, 6,    // side 2
-		6, 0, 2,
-		7, 5, 6,    // side 3
-		6, 5, 4,
-		3, 1, 7,    // side 4
-		7, 1, 5,
-		4, 5, 0,    // side 5
-		0, 5, 1,
-		3, 7, 2,    // side 6
-		2, 7, 6,
-    };
-
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(WORD) * 36;     
-    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-    InitData.pSysMem = indices;
-    hr = _pd3dDevice->CreateBuffer(&bd, &InitData, &_pIndexBuffer);
-
-    if (FAILED(hr))
-        return hr;
-
-	return S_OK;
 }
 
 HRESULT Application::CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
@@ -595,6 +507,15 @@ void Application::Update(double time)
 
 	XMStoreFloat4x4(&_cube1, _final1);
 	XMStoreFloat4x4(&_cube2, _final2);
+
+	_cubbe1.SetRotation(t, t, t);
+	_cubbe1.SetScale(1, 1, 1);
+	_cubbe1.SetTranslation(.0f, .0f, .0f);
+	_cubbe2.SetRotation(t, t, t);
+	_cubbe2.SetScale(0.5f, 0.5f, 1);
+	_cubbe2.SetTranslation(.0f, 2.0f, 2.0f);
+	_cubbe1.Update(t);
+	_cubbe2.Update(-t);
 }
 
 void Application::Draw()
@@ -604,8 +525,8 @@ void Application::Draw()
     _pImmediateContext->ClearRenderTargetView(_pRenderTargetView, ClearColor);
 	_pImmediateContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	XMMATRIX world1 = XMLoadFloat4x4(&_cube1);
-	XMMATRIX world2 = XMLoadFloat4x4(&_cube2);
+	XMMATRIX world1 = XMLoadFloat4x4(&_cubbe1.GetWorld());
+	XMMATRIX world2 = XMLoadFloat4x4(&_cubbe2.GetWorld());
 	XMMATRIX view = XMLoadFloat4x4(&_view);
 	XMMATRIX projection = XMLoadFloat4x4(&_projection);
 
@@ -614,28 +535,31 @@ void Application::Draw()
 	cb.mWorld = XMMatrixTranspose(world1);
 	cb.mView = XMMatrixTranspose(view);
 	cb.mProjection = XMMatrixTranspose(projection);
+	//cb.mEyePosW = _cam.GetPosition();
 	cb.mLight = _light;
+
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
 
-	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
-	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);        
-
+	//_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
+	//_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	//_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
+	//_pImmediateContext->DrawIndexed(36, 0, 0);        
+	_cubbe1.Draw(_pd3dDevice, _pImmediateContext, _pConstantBuffer, &cb, _pVertexShader, _pPixelShader);
 	// Draw cube 2
 	cb.mWorld = XMMatrixTranspose(world2);
 	cb.mView = XMMatrixTranspose(view);
 	cb.mProjection = XMMatrixTranspose(projection);
 	cb.mLight = _light;
+	//cb.mEyePosW = _cam.GetPosition();
 
 	_pImmediateContext->UpdateSubresource(_pConstantBuffer, 0, nullptr, &cb, 0, 0);
-
-	_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
-	_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
-	_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
-	_pImmediateContext->DrawIndexed(36, 0, 0);
-
+	
+	//_pImmediateContext->VSSetShader(_pVertexShader, nullptr, 0);
+	//_pImmediateContext->VSSetConstantBuffers(0, 1, &_pConstantBuffer);
+	//_pImmediateContext->PSSetShader(_pPixelShader, nullptr, 0);
+	//_pImmediateContext->DrawIndexed(36, 0, 0);*/
+	_cubbe2.Draw(_pd3dDevice, _pImmediateContext, _pConstantBuffer, &cb, _pVertexShader, _pPixelShader);
     _pSwapChain->Present(0, 0);
 }
 
@@ -671,3 +595,4 @@ double	Application::GetFrameTime()
 
 	return float(tickCount) / _countsPerSecond;
 }
+

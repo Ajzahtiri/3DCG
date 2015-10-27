@@ -4,13 +4,15 @@
 #pragma comment (lib, "dxguid.lib")
 
 #include <windows.h>
-#include "Camera.h"
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
 #include <directxmath.h>
 #include "resource.h"
 #include <dinput.h>
+
+#include "Camera.h"
 #include "Structures.h"
+#include "Cube.h"
 
 using namespace DirectX;
 
@@ -30,11 +32,11 @@ private:
 	ID3D11VertexShader*     _pVertexShader;
 	ID3D11PixelShader*      _pPixelShader;
 	ID3D11InputLayout*      _pVertexLayout;
-	ID3D11Buffer*           _pVertexBuffer;
-	ID3D11Buffer*           _pIndexBuffer;
 	ID3D11Buffer*           _pConstantBuffer;
 	XMFLOAT4X4              _cube1;
 	XMFLOAT4X4				_cube2;
+	Cube					_cubbe1;
+	Cube					_cubbe2;
 
 	//depth buffer
 	ID3D11DepthStencilView* _depthStencilView;
@@ -69,9 +71,7 @@ private:
 	HRESULT InitCamera(HINSTANCE hInstance);
 	HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
 	HRESULT InitShadersAndInputLayout();
-	HRESULT InitVertexBuffer();
-	HRESULT InitIndexBuffer();
-
+	
 public:
 	Application();
 	~Application();

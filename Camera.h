@@ -6,42 +6,42 @@
 #include <d3dcompiler.h>
 #include <directxmath.h>
 using namespace DirectX;
-
-struct Eye
-{
-	float x;
-	float y;
-	float z;
-};
-
-struct At
-{
-	float x;
-	float y;
-	float z;
-};
-
-struct Up
-{
-	float x;
-	float y;
-	float z;
-};
+//
+//struct Eye
+//{
+//	float x;
+//	float y;
+//	float z;
+//};
+//
+//struct At
+//{
+//	float x;
+//	float y;
+//	float z;
+//};
+//
+//struct Up
+//{
+//	float x;
+//	float y;
+//	float z;
+//};
 
 class Camera
 {
 private:
-	Eye eye;
+	/*Eye eye;
 	At at;
-	Up up;
-
-
-
-	float movement = 0.001;
+	Up up;*/
 	
+	float movement = 0.001;	
 
 public:
-	Camera();
+	XMFLOAT3 eye;
+	   XMFLOAT3 at;
+	   XMFLOAT3 up;
+	   Camera();
 	~Camera();
 	
 	HRESULT Initialise();
@@ -51,6 +51,7 @@ public:
 	void moveDown();
 	void moveForward();
 	void moveBack();
+	XMFLOAT3 GetPosition() const { return eye; }
 
 	XMVECTOR getEyeVector();
 	XMVECTOR getAtVector();

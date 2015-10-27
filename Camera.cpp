@@ -34,6 +34,7 @@ void Camera::moveLeft()
 {
 	eye.x -= movement;
 	at.x -= movement;
+	
 }
 
 void Camera::moveRight()
@@ -71,6 +72,7 @@ XMVECTOR Camera::getEyeVector()
 	XMVECTOR e = XMVectorSet(eye.x, eye.y, eye.z, 0.0f);
 	return e;
 }
+
 
 XMVECTOR Camera::getAtVector()
 {

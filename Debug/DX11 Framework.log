@@ -1,18 +1,15 @@
-﻿Build started 21/10/2015 21:22:52.
+﻿Build started 27/10/2015 18:24:10.
      1>Project "C:\Users\Aaron\Google Drive\Uni\Year 3\Semester 1\3DCG\3dcg\3DCG\DX11 Framework.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W4 /WX- /Od /Oi /Oy- /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D D3DXFX_LARGEADDRESS_HANDLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /openmp- /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt  Application.cpp
-         Application.cpp
-         c:\program files (x86)\windows kits\8.1\include\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-     1>c:\users\aaron\google drive\uni\year 3\semester 1\3dcg\3dcg\3dcg\application.cpp(308): warning C4100: 'hInstance': unreferenced formal parameter
-     1>c:\users\aaron\google drive\uni\year 3\semester 1\3dcg\3dcg\3dcg\application.cpp(310): warning C4101: 'hr': unreferenced local variable
-     1>c:\users\aaron\google drive\uni\year 3\semester 1\3dcg\3dcg\3dcg\application.cpp(501): warning C4100: 'time': unreferenced formal parameter
-     1>c:\users\aaron\google drive\uni\year 3\semester 1\3dcg\3dcg\3dcg\application.cpp(559): warning C4100: 'time': unreferenced formal parameter
-     1>c:\users\aaron\google drive\uni\year 3\semester 1\3dcg\3dcg\3dcg\application.cpp(669): warning C4244: '=': conversion from 'float' to '__int64', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W4 /WX- /Od /Oi /Oy- /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D D3DXFX_LARGEADDRESS_HANDLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /openmp- /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt  Cube.cpp
+         Cube.cpp
+     1>c:\users\aaron\google drive\uni\year 3\semester 1\3dcg\3dcg\3dcg\cube.cpp(277): warning C4100: 'cb': unreferenced formal parameter
+     1>c:\users\aaron\google drive\uni\year 3\semester 1\3dcg\3dcg\3dcg\cube.cpp(277): warning C4100: 'device': unreferenced formal parameter
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Aaron\Google Drive\Uni\Year 3\Semester 1\3DCG\3dcg\3DCG\Debug\DX11 Framework.exe" /INCREMENTAL /NOLOGO d3d11.lib d3dcompiler.lib dxguid.lib winmm.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /Debug /PDB:"C:\Users\Aaron\Google Drive\Uni\Year 3\Semester 1\3DCG\3dcg\3DCG\Debug\DX11 Framework.pdb" /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Aaron\Google Drive\Uni\Year 3\Semester 1\3DCG\3dcg\3DCG\Debug\DX11 Framework.lib" /MACHINE:X86 /SAFESEH  "Debug\DX11 Framework.res"
          Debug\Application.obj
          Debug\Camera.obj
+         Debug\Cube.obj
          "Debug\DX11 Framework.obj"
          Debug\Object.obj
          DX11 Framework.vcxproj -> C:\Users\Aaron\Google Drive\Uni\Year 3\Semester 1\3DCG\3dcg\3DCG\Debug\DX11 Framework.exe
@@ -20,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.81
+Time Elapsed 00:00:00.71
